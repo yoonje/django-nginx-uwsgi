@@ -124,8 +124,8 @@ $ git clone https://<당신의 git repository>
 ```
 git에서 프로젝트를 clone 합니다.
 ```sh
-$ python3 manage.py makemigrations;
-$ python3 manage.py migrate;
+$ python3 manage.py makemigrations
+$ python3 manage.py migrate
 ```
 DB 설정을 위해 migration합니다.
 ###### cllectstatic
@@ -147,6 +147,11 @@ $ uwsgi --http :<포트 번호> --module <디렉토리 이름>.wsgi
 ```
 장고 프로젝트를 실행합니다.
 
+### 웹서버 백그라운드로 구동하기
+```sh
+nohup --http :<포트 번호> --module <디렉토리 이름>.wsgi &
+```
+nginx는 stop하지 않는 이상 죽지 않는다. 다만 웹 애플리케이션은 터미널을 닫았을 경우 꺼지기 때문에 nohup을 통해 백그라운드 실행 처리를 한다.
 ### 공유기를 사용하는 경우(포트 포워딩)
 공유기를 사용하여 서버를 돌릴 경우 포트 포워딩을 해야합니다. 예를 들어 현재 장고 프로젝트에서 uwsgi 명령어를 통해서 설정한 내부포트 번호(conf 파일의 upstream django 안의 내부포트와 같음)가 8001번이고 upstream의 IP가 localhost이고 conf 파일에서 listen 외부 포트를 80번이라고 가정합니다. 또한 conf 파일에서 server_name에 내부 IP를 설정했다고 가정합니다. 예시와 같은 상황에서는 서버를 운용하는 컴퓨터의 공인 IP의 특정 포트로 접근할 경우 공유기에서 포트 포워딩을 통해서 공인 IP로 접근하고 있는 특정 포트를 포워딩하여 사용하고 있는 내부 IP와 80번 포트로 포워딩을 설정해야 conf 파일을 통해서 장고의 8001번 포트와 연동이 됩니다. 장고의 uwsgi <--> nginx|nginx <--> 서버 컴퓨터의 공인IP (== localhost:8001번 <--> 내부IP:80번 | 내부IP:80번 <--> 공인IP:특정포트)와 같은 구조입니다.
 
