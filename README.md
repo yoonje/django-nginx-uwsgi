@@ -149,7 +149,7 @@ $ uwsgi --http :<포트 번호> --module <디렉토리 이름>.wsgi
 
 ### 웹서버 백그라운드로 구동하기
 ```sh
-nohup --http :<포트 번호> --module <디렉토리 이름>.wsgi &
+nohup uwsgi --http :<포트 번호> --module <디렉토리 이름>.wsgi &
 ```
 nginx는 stop하지 않는 이상 죽지 않는다. 다만 웹 애플리케이션은 터미널을 닫았을 경우 꺼지기 때문에 nohup을 통해 백그라운드 실행 처리를 한다.
 ### 공유기를 사용하는 경우(포트 포워딩)
