@@ -1,4 +1,4 @@
-# Django nignx uwsgi 연동 가이드
+# Django nginx uwsgi 연동 가이드
 장고 nginx 연동을 위한 한국어 가이드 기초편입니다. 소켓을 사용하지 않는 쉬운 방법으로 웹 서버를 가동합니다.
 
 ### Version
