@@ -1,7 +1,7 @@
 # Django Nginx Uwsgi 연동 가이드
-장고 nginx 연동을 위한 한국어 가이드 기초편입니다. 소켓을 사용하지 않는 쉬운 방법으로 웹 서버를 가동합니다.
+장고 nginx 연동을 위한 한국어 기초 가이드 입니다. 소켓을 사용하지 않는 쉬운 방법으로 웹 서버를 가동합니다.
 
-### Version
+### 환경 버전
 - Ubuntu 16.04
 - Python: 3.5.2 
 - Django: 2.2.0
@@ -120,7 +120,7 @@ http는 http 통신을 하겠다는 의미입니다. 포트 번호는 80번이 �
 
 ###### 프로젝트를 git에서 가져와야하는 경우(선택)
 ```sh
-$ git clone https://<당신의 git repository>
+$ git clone https://<git repository>
 ```
 git에서 프로젝트를 clone 합니다.
 ```sh
@@ -132,10 +132,10 @@ DB 설정을 위해 migration합니다.
 ```sh
 python3 manage.py collectstatic
 ```
-js,css와 같은 정적 파일들을 분리합니다. 이를 통해 만들어진 디렉토리를 conf 파일의 location /static에 설정합니다.
+js,css와 같은 정적 파일들을 분리합니다. 이를 통해 만들어진 디렉토리를 nignx conf 파일의 location /static에 설정합니다.
+
 ###### settings.py
-settings.py의 ALLOWED_HOSTS에 장고 서버가 listen할 IP를 등록(보통 localhost)하고 DEBUG 옵션을 False로 수정합니다. ALLOWED_HOSTS에 아무 값이 없을 경우 이는 어떤 IP도 접근 할수 없음을 의미합니다. localhost로 지정하면 디버깅 모드가 아닌 경우 로컬에서도 접근이 가능합니다. STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-를 설정하여 collectstatic 하여 모여진 static 파일들을 설정합니다.
+settings.py의 ALLOWED_HOSTS에 장고 서버가 listen할 IP를 등록하고 DEBUG 옵션을 False로 수정합니다. localhost로 지정하면 디버깅 모드가 아닌 경우 로컬에서도 접근이 가능합니다. STATIC_ROOT = os.path.join(BASE_DIR, 'static')를 설정하여 collectstatic 하여 모여진 static 파일들을 설정합니다.
 
 ### 웹서버 구동 시작하기
 ```sh
@@ -151,7 +151,7 @@ $ uwsgi --http :<포트 번호> --module <디렉토리 이름>.wsgi
 ```sh
 nohup uwsgi --http :<포트 번호> --module <디렉토리 이름>.wsgi &
 ```
-nginx는 stop하지 않는 이상 서버가 죽지 않습니다. 다만 웹 애플리케이션은 터미널을 닫았을 경우 꺼지기 때문에 nohup을 통해 백그라운드 실행 처리를 합니다.
+nginx는 stop하지 않는 이상 서비스가 죽지 않습니다. 다만 웹 애플리케이션은 터미널을 닫았을 경우 꺼지기 때문에 nohup을 통해 백그라운드 실행 처리를 합니다.
 
 ### 공유기를 사용하는 경우(포트 포워딩)
 공유기를 사용하여 서버를 돌릴 경우 포트 포워딩을 해야합니다. 예를 들어 현재 장고 프로젝트에서 uwsgi 명령어를 통해서 설정한 내부포트 번호(conf 파일의 upstream django 안의 내부포트와 같음)가 8001번이고 upstream의 IP가 localhost이고 conf 파일에서 listen 외부 포트를 80번이라고 가정합니다. 또한 conf 파일에서 server_name에 내부 IP를 설정했다고 가정합니다. 예시와 같은 상황에서는 서버를 운용하는 컴퓨터의 공인 IP의 특정 포트로 접근할 경우 공유기에서 포트 포워딩을 통해서 공인 IP로 접근하고 있는 특정 포트를 포워딩하여 사용하고 있는 내부 IP와 80번 포트로 포워딩을 설정해야 conf 파일을 통해서 장고의 8001번 포트와 연동이 됩니다. 장고의 uwsgi <--> nginx|nginx <--> 서버 컴퓨터의 공인IP (== localhost:8001번 <--> 내부IP:80번 | 내부IP:80번 <--> 공인IP:특정포트)와 같은 구조입니다.
@@ -161,5 +161,3 @@ nginx는 stop하지 않는 이상 서버가 죽지 않습니다. 다만 웹 애�
 
 ### 로컬 서버만을 돌리는 방법(같은 WIFI에 묶여있는 경우에만 접근)
 로컬 서버만으로 돌리려고 하는 경우 conf 파일의 셋팅은 똑같습니다. 서버 컴퓨터의 내부IP를 고정하고 다른 기기에서는 서버 컴퓨터의 내부IP와 listen된 포트로 접근하면 됩니다.
-
-
