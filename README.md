@@ -56,7 +56,7 @@ $ sudo nginx -t
 구성 파일의 문법을 점검합니다.
 ### nginx 구동 여부 확인하기
 nginx 시작 명령을 통해서 웹서버를 가동하고 본인의 IP를 입력하면 다음과 같은 화면이 나옵니다.
-<img src="image/nginx.png" width="600" height="400">
+![nginx](https://user-images.githubusercontent.com/38535571/92153134-bd63eb00-ee5e-11ea-9fab-3484ab641777.png)
 
 ### nginx 설정
 
